@@ -2,173 +2,170 @@
 
 import streamlit as st
 
+
 def show_header(active_page="dashboard"):
-    st.title("👓 AI-Powered Order Management System")
 
+    st.markdown(
+        """
+        <style>
 
-# # def show_header(active_page="dashboard"):
+        /* Hide Sidebar */
+        [data-testid="stSidebar"]{
+            display:none;
+        }
 
-# #     st.markdown(
-# #         """
-# #         <style>
+        /* Main App Title */
+        .main-title{
+            font-size:60px;
+            font-weight:900;
+            margin-bottom:30px;
+            text-align:center;
+        }
 
-# #         /* Hide Sidebar */
-# #         [data-testid="stSidebar"]{
-# #             display:none;
-# #         }
+        /* Navigation Buttons */
+        div.stButton > button {
 
-# #         /* Main App Title */
-# #         .main-title{
-# #             font-size:60px;
-# #             font-weight:900;
-# #             margin-bottom:30px;
-# #             text-align:center;
-# #         }
+            width:100%;
 
-# #         /* Navigation Buttons */
-# #         div.stButton > button {
+            height:80px !important;
 
-# #             width:100%;
+            font-size:28px !important;
 
-# #             height:80px !important;
+            font-weight:700 !important;
 
-# #             font-size:28px !important;
+            border-radius:20px !important;
 
-# #             font-weight:700 !important;
+            background: rgba(255,255,255,0.08) !important;
 
-# #             border-radius:20px !important;
+            backdrop-filter: blur(20px);
 
-# #             background: rgba(255,255,255,0.08) !important;
+            -webkit-backdrop-filter: blur(20px);
 
-# #             backdrop-filter: blur(20px);
+            border:1px solid rgba(255,255,255,0.15) !important;
 
-# #             -webkit-backdrop-filter: blur(20px);
+            color:white !important;
 
-# #             border:1px solid rgba(255,255,255,0.15) !important;
+            transition: all 0.3s ease;
 
-# #             color:white !important;
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.35);
+        }
 
-# #             transition: all 0.3s ease;
+        div.stButton > button:hover {
 
-# #             box-shadow:
-# #                 0 8px 32px rgba(0,0,0,0.35);
-# #         }
+            border:1px solid #4ea8ff !important;
 
-# #         div.stButton > button:hover {
+            transform:translateY(-3px);
 
-# #             border:1px solid #4ea8ff !important;
+            box-shadow:
+                0 12px 40px rgba(78,168,255,0.25);
+        }
 
-# #             transform:translateY(-3px);
+        /* ACTIVE PAGE GLOW EFFECT */
 
-# #             box-shadow:
-# #                 0 12px 40px rgba(78,168,255,0.25);
-# #         }
+        div.stButton button[kind="primary"]{
 
-# #         /* ACTIVE PAGE GLOW EFFECT */
+            border:2px solid #4ea8ff !important;
 
-# #         div.stButton button[kind="primary"]{
+            background: rgba(78,168,255,0.15) !important;
 
-# #             border:2px solid #4ea8ff !important;
+            color:white !important;
 
-# #             background: rgba(78,168,255,0.15) !important;
+            box-shadow:
+                0 0 20px rgba(78,168,255,0.9),
+                0 0 40px rgba(78,168,255,0.5),
+                0 8px 32px rgba(0,0,0,0.35) !important;
 
-# #             color:white !important;
+            transform: translateY(-2px);
+        }
 
-# #             box-shadow:
-# #                 0 0 20px rgba(78,168,255,0.9),
-# #                 0 0 40px rgba(78,168,255,0.5),
-# #                 0 8px 32px rgba(0,0,0,0.35) !important;
+        /* KPI Cards */
 
-# #             transform: translateY(-2px);
-# #         }
+        div[data-testid="metric-container"]{
 
-# #         /* KPI Cards */
+            background: rgba(255,255,255,0.06);
 
-# #         div[data-testid="metric-container"]{
+            backdrop-filter: blur(18px);
 
-# #             background: rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.12);
 
-# #             backdrop-filter: blur(18px);
+            border-radius:20px;
 
-# #             border:1px solid rgba(255,255,255,0.12);
+            padding:18px;
 
-# #             border-radius:20px;
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.25);
+        }
 
-# #             padding:18px;
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
-# #             box-shadow:
-# #                 0 8px 32px rgba(0,0,0,0.25);
-# #         }
+    st.markdown(
+        """
+        <div class="main-title">
+            👓 AI-Powered Order Management System
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-# #         </style>
-# #         """,
-# #         unsafe_allow_html=True,
-# #     )
+    col1, col2, col3, col4, col5 = st.columns(5)
 
-#     # st.markdown(
-#     #     """
-#     #     <div class="main-title">
-#     #         👓 AI-Powered Order Management System
-#     #     </div>
-#     #     """,
-#     #     unsafe_allow_html=True,
-#     # )
+    with col1:
 
-#     col1, col2, col3, col4, col5 = st.columns(5)
+        dashboard_type = "primary" if active_page == "dashboard" else "secondary"
 
-#     with col1:
+        if st.button(
+            "Dashboard",
+            use_container_width=True,
+            type=dashboard_type,
+        ):
+            st.switch_page("dashboard.py")
 
-#         dashboard_type = "primary" if active_page == "dashboard" else "secondary"
+    with col2:
 
-#         if st.button(
-#             "Dashboard",
-#             use_container_width=True,
-#             type=dashboard_type,
-#         ):
-#             st.switch_page("dashboard.py")
+        create_type = "primary" if active_page == "create" else "secondary"
 
-#     with col2:
+        if st.button(
+            "Create Order",
+            use_container_width=True,
+            type=create_type,
+        ):
+            st.switch_page("pages/1_Create_Order.py")
 
-#         create_type = "primary" if active_page == "create" else "secondary"
+    with col3:
 
-#         if st.button(
-#             "Create Order",
-#             use_container_width=True,
-#             type=create_type,
-#         ):
-#             st.switch_page("pages/1_Create_Order.py")
+        update_type = "primary" if active_page == "update" else "secondary"
 
-#     with col3:
+        if st.button(
+            "Update Status",
+            use_container_width=True,
+            type=update_type,
+        ):
+            st.switch_page("pages/2_Update_Status.py")
 
-#         update_type = "primary" if active_page == "update" else "secondary"
+    with col4:
 
-#         if st.button(
-#             "Update Status",
-#             use_container_width=True,
-#             type=update_type,
-#         ):
-#             st.switch_page("pages/2_Update_Status.py")
+        inventory_type = "primary" if active_page == "inventory" else "secondary"
 
-#     with col4:
+        if st.button(
+            "Inventory",
+            use_container_width=True,
+            type=inventory_type,
+        ):
+            st.switch_page("pages/3_Inventory.py")
 
-#         inventory_type = "primary" if active_page == "inventory" else "secondary"
+    with col5:
 
-#         if st.button(
-#             "Inventory",
-#             use_container_width=True,
-#             type=inventory_type,
-#         ):
-#             st.switch_page("pages/3_Inventory.py")
+        alerts_type = "primary" if active_page == "alerts" else "secondary"
 
-#     with col5:
+        if st.button(
+            "Alerts",
+            use_container_width=True,
+            type=alerts_type,
+        ):
+            st.switch_page("pages/4_Alerts.py")
 
-#         alerts_type = "primary" if active_page == "alerts" else "secondary"
-
-#         if st.button(
-#             "Alerts",
-#             use_container_width=True,
-#             type=alerts_type,
-#         ):
-#             st.switch_page("pages/4_Alerts.py")
-
-#     st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
