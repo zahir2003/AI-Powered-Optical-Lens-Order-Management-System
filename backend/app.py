@@ -14,7 +14,13 @@ from scheduler import scheduler
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="AI Order Management System")
-scheduler.start()
+
+from apscheduler.schedulers.base import SchedulerAlreadyRunningError
+
+try:
+    scheduler.start()
+except SchedulerAlreadyRunningError:
+    pass
 
 
 @app.get("/")
