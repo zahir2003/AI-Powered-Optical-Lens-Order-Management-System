@@ -1,0 +1,17 @@
+Interview/
+
+__pycache__/
+*.pyc
+
+.env
+
+.streamlit/
+
+.vscode/
+.idea/
+
+*.log
+
+.DS_Store
+
+*.db-journal
