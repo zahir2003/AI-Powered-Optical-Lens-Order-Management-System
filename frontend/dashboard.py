@@ -11,9 +11,9 @@ import plotly.express as px
 from ui_utils import show_header
 from streamlit_autorefresh import st_autorefresh
 
-# st_autorefresh(interval=10000, key="dashboard_refresh") 
+# st_autorefresh(interval=10000, key="dashboard_refresh")
 
-API_URL = "http://127.0.0.1:8000"
+API_URL = "https://ai-powered-optical-lens-order-management.onrender.com"
 
 # st.set_page_config(page_title="AI Order Management System", layout="wide")
 

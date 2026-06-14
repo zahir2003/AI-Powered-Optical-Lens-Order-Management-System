@@ -10,7 +10,7 @@ from ui_utils import show_header
 show_header(active_page="update")
 
 
-API_URL = "http://127.0.0.1:8000"
+API_URL = "https://ai-powered-optical-lens-order-management.onrender.com"
 
 st.title("🔄 Update Order Status")
 
