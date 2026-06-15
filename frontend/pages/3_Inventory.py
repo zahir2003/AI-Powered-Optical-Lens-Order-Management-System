@@ -3,6 +3,7 @@ st.set_page_config(
     page_title="Inventory | AI-Powered Order Management System",
     page_icon="👓",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 import requests
 import pandas as pd
@@ -10,7 +11,7 @@ from ui_utils import show_header
 
 show_header(active_page="inventory")
 
-API_URL = "https://ai-powered-optical-lens-order-management.onrender.com"
+API_URL = "http://localhost:8000"
 
 st.title("🏭 Inventory Management")
 

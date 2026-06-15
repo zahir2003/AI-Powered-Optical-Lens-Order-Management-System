@@ -3,6 +3,7 @@ st.set_page_config(
     page_title="Dashboard | AI-Powered Order Management System",
     page_icon="👓",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 import requests
 import pandas as pd
@@ -13,7 +14,7 @@ from streamlit_autorefresh import st_autorefresh
 
 # st_autorefresh(interval=10000, key="dashboard_refresh")
 
-API_URL = "https://ai-powered-optical-lens-order-management.onrender.com"
+API_URL = "http://localhost:8000"
 
 # st.set_page_config(page_title="AI Order Management System", layout="wide")
 

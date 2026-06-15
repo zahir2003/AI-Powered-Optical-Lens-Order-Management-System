@@ -19,47 +19,25 @@ def predict_breach(order):
 
     try:
 
-        # -----------------------
-        # Delivered Orders
-        # -----------------------
-
+        # Delivered orders are always safe
         if order.status == "Delivered":
             return 0, 0
 
-        # -----------------------
         # QC Failure / Reorder
-        # -----------------------
-
         if order.status in ["QC Failed", "Reorder"]:
             return 1, 100
 
-        # -----------------------
-        # Remaining SLA Time
-        # -----------------------
-
         remaining_hours = order.sla_hours - order.elapsed_hours
 
-        # Already breached SLA
+        # Already breached
         if remaining_hours <= 0:
             return 1, 100
 
-        # Very close to SLA
+        # Critical risk
         if remaining_hours <= 4:
             return 1, 90
 
-        # -----------------------
-        # Normal Workflow
-        # -----------------------
-        # Order Placed
-        # Production
-        # QC
-        # Packed
-        # Shipped
-        #
-        # If enough SLA time remains,
-        # the order is considered safe.
-        # -----------------------
-
+        # Safe
         return 0, 0
 
     except Exception as e:

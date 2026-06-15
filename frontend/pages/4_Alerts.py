@@ -4,13 +4,14 @@ st.set_page_config(
     page_title="Alerts | AI-Powered Order Management System",
     page_icon="👓",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 import requests
 from ui_utils import show_header
 
 show_header(active_page="alerts")
 
-API_URL = "https://ai-powered-optical-lens-order-management.onrender.com"
+API_URL = "http://localhost:8000"
 
 st.title("⚠ AI Breach Alerts")
 

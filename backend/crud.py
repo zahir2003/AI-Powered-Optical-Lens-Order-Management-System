@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from ml_service import predict_breach
 
 import models
 
@@ -20,19 +21,15 @@ def create_inventory(db: Session, inventory):
         .first()
     )
 
-    # If same inventory already exists,
-    # increase quantity instead of creating new row
     if existing_inventory:
 
         existing_inventory.quantity += inventory.quantity
 
         db.commit()
-
         db.refresh(existing_inventory)
 
         return existing_inventory
 
-    # Otherwise create new inventory record
     db_inventory = models.Inventory(
         lens_type=inventory.lens_type,
         power=inventory.power,
@@ -44,7 +41,6 @@ def create_inventory(db: Session, inventory):
     db.add(db_inventory)
 
     db.commit()
-
     db.refresh(db_inventory)
 
     return db_inventory
@@ -76,7 +72,7 @@ def create_order(db: Session, order):
             round(item.power, 2) == round(order.power, 2)
             and round(item.lens_index, 2) == round(order.lens_index, 2)
             and item.coating == order.coating
-            and item.quantity > 0
+            and item.quantity >= order.quantity
         ):
             inventory_item = item
             break
@@ -93,17 +89,16 @@ def create_order(db: Session, order):
     elif order.lens_type == "Progressive":
         sla_hours = 48
 
-    else:  # Bifocal
+    else:
         sla_hours = 72
 
     # -----------------------
     # INVENTORY CHECK
     # -----------------------
 
-    if inventory_item and inventory_item.quantity >= order.quantity:
+    if inventory_item:
 
         inventory_available = True
-
         inventory_item.quantity -= order.quantity
 
     else:
@@ -126,12 +121,25 @@ def create_order(db: Session, order):
         inventory_available=inventory_available,
         sla_hours=sla_hours,
         elapsed_hours=0,
+        predicted_breach=False,
+        predicted_confidence=0,
     )
 
     db.add(db_order)
 
     db.commit()
+    db.refresh(db_order)
 
+    # -----------------------
+    # INITIAL AI PREDICTION
+    # -----------------------
+
+    breach, confidence = predict_breach(db_order)
+
+    db_order.predicted_breach = breach
+    db_order.predicted_confidence = confidence
+
+    db.commit()
     db.refresh(db_order)
 
     return db_order
@@ -156,7 +164,10 @@ def update_order_status(
 
     order.status = status
 
-    # Clear old delay reason when workflow continues
+    # -----------------------
+    # DELAY REASON
+    # -----------------------
+
     if status != "QC Failed":
         order.delay_reason = None
 
@@ -192,7 +203,6 @@ def update_order_status(
     elif status == "QC Failed":
 
         order.status = "Reorder"
-
         order.delay_reason = "QC Failure - Reorder Required"
 
         if order.lens_type == "Single Vision":
@@ -227,15 +237,16 @@ def update_order_status(
 
         order.elapsed_hours += 1
 
-        # Delivered orders should not appear in alerts
-        order.predicted_breach = False
-        order.predicted_confidence = 0
+    # -----------------------
+    # RECALCULATE AI PREDICTION
+    # -----------------------
 
-        if hasattr(order, "alert_sent"):
-            order.alert_sent = False
+    breach, confidence = predict_breach(order)
+
+    order.predicted_breach = breach
+    order.predicted_confidence = confidence
 
     db.commit()
-
     db.refresh(order)
 
     return order

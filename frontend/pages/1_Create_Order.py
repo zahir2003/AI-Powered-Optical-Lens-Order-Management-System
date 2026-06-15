@@ -8,9 +8,10 @@ st.set_page_config(
     page_title="Create Order | AI-Powered Order Management System",
     page_icon="👓",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 
-API_URL = "https://ai-powered-optical-lens-order-management.onrender.com"
+API_URL = "http://localhost:8000"
 
 st.title("➕ Create New Order")
 

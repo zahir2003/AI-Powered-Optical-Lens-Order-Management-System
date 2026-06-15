@@ -10,8 +10,12 @@ def show_header(active_page="dashboard"):
         <style>
 
         /* Hide Sidebar */
-        [data-testid="stSidebar"]{
-            display:none;
+        section[data-testid="stSidebar"]{
+            display:none !important;
+        }
+
+        button[kind="header"]{
+            display:none !important;
         }
 
         /* Main App Title */
