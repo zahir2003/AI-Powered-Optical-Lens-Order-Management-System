@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-API_URL = "http://localhost:8000"
+API_URL = "https://ai-powered-optical-lens-order-management.onrender.com"
 
 st.title("➕ Create New Order")
 

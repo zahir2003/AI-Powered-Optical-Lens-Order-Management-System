@@ -14,7 +14,7 @@ from streamlit_autorefresh import st_autorefresh
 
 # st_autorefresh(interval=10000, key="dashboard_refresh")
 
-API_URL = "http://localhost:8000"
+API_URL = "https://ai-powered-optical-lens-order-management.onrender.com"
 
 # st.set_page_config(page_title="AI Order Management System", layout="wide")
 
